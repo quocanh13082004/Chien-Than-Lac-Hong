@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver Chiến Thần Lạc Hồng</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+
+    #driver-container {
+      position: relative;
+      width: 60vw;
+      max-width: 300px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 20px;
+    }
+
+    #driver {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid #dac403d8;
+      box-shadow: 0 0 15px #dfb302;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    #driver img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 2s ease;
+    }
+
+    .spin {
+      transform: rotate(1080deg);
+    }
+
+    .glow {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 120%;
+      height: 120%;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 0, 0.8);
+      box-shadow: 0 0 30px yellow, 0 0 60px orange;
+      animation: glow-rotate-fade 2s linear forwards;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes glow-rotate-fade {
+      0% {
+        transform: rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    #rider-image {
+      margin-top: 20px;
+      display: none;
+      width: 70vw;
+      max-width: 350px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="driver-container" title="Chạm để Thiết Triệu">
+    <div id="driver">
+      <img src="z6709488570571_9d2f322555e100635b43942184737b26.jpg" alt="Driver">
+    </div>
+  </div>
+
+  <img id="rider-image" src="https://i.imgur.com/8Qf1l55.png" alt="Kamen Rider">
+
+  <audio id="henshin-sound" src="Thiết Triệu.mp3"></audio>
+
+  <script>
+    const driver = document.getElementById('driver');
+    const driverImg = driver.querySelector('img');
+    const driverContainer = document.getElementById('driver-container');
+    const riderImg = document.getElementById('rider-image');
+    const sound = document.getElementById('henshin-sound');
+
+    driverContainer.addEventListener('click', () => {
+      // Quay driver
+      driverImg.classList.remove('spin');
+      void driverImg.offsetWidth;
+      driverImg.classList.add('spin');
+
+      // Sáng driver
+      driver.style.boxShadow = '0 0 30px red';
+
+      // Tạo tia sáng
+      const glow = document.createElement('div');
+      glow.className = 'glow';
+      driverContainer.appendChild(glow);
+
+      // Xóa tia sáng sau 2 giây
+      setTimeout(() => {
+        glow.remove();
+      }, 2000);
+
+      // Phát âm thanh
+      sound.currentTime = 0;
+      sound.play().catch(() => {
+        console.log("Trình duyệt chặn âm thanh tự động.");
+      });
+
+      // Hiện rider
+      riderImg.style.display = 'block';
+
+      // Giảm sáng driver sau 2 giây
+      setTimeout(() => {
+        driver.style.boxShadow = '0 0 15px #ff0000';
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>
